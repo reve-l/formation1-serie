@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import List from './components/list';
+import TodoForm from './components/todoform';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+
+class App extends Component {
+ 
+
+  constructor(props){
+    super(props);
+    this.state={
+      todos:[]
+    };
+  }
+
+
+  oneNewTodo(todo){
+    let newTodoList = this.state.todos;
+    newTodoList.push(todo);
+    this.setState({ todos: newTodoList});
+  }
+
+
+
+
+  render(){
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h2>TodoApp</h2> 
+        
+        </header>
+        <TodoForm oneNewTodo={this.oneNewTodo.bind(this)} />
+        <List todos={this.state.todos} onTodoToggle={this.toggleTodoState.bind(this)}/>
+      </div>
+    );
+  }
+
+  toggleTodoState(todo,index){//fonction qui modifie une ligne en clicquant dessus. todo et index sont puisées dans onTodoToggle
+    let _todo=todo;
+    _todo.done=!todo.done;
+    let newTodos=this.state.todos;
+    newTodos[index]=_todo;
+    this.setState({todos: newTodos});
+  }
+  
 }
 
 export default App;
