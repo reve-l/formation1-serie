@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import List from './components/list';
-import TodoForm from './components/todoform';
+import Input from './components/input';
 import './App.css';
 
 
@@ -15,6 +15,32 @@ class App extends Component {
       todos:[]
     };
   }
+  
+
+  render(){
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h2>TodoApp</h2> 
+        </header>
+        {this.renderInput()}
+        {this.renderSearchInput()}
+        <List todos={this.state.todos} onTodoToggle={this.toggleTodoState.bind(this)}/>
+      </div>
+    );
+  }
+
+  
+  renderInput(){
+    return( <Input btnText={"créer le todo"} oneAction={this.oneNewTodo.bind(this)} />
+    );
+  }
+
+  renderSearchInput(){
+    return( <Input btnText={"recherche"} oneAction={this.oneSearch.bind(this)} />
+    );
+  }
+
 
 
   oneNewTodo(todo){
@@ -23,22 +49,12 @@ class App extends Component {
     this.setState({ todos: newTodoList});
   }
 
-
-
-
-  render(){
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h2>TodoApp</h2> 
-        
-        </header>
-        <TodoForm oneNewTodo={this.oneNewTodo.bind(this)} />
-        <List todos={this.state.todos} onTodoToggle={this.toggleTodoState.bind(this)}/>
-      </div>
-    );
+  oneSearch(){
+    console.log("recherche...");
   }
 
+
+  
   toggleTodoState(todo,index){//fonction qui modifie une ligne en clicquant dessus. todo et index sont puisées dans onTodoToggle
     let _todo=todo;
     _todo.done=!todo.done;
